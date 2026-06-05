@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function ArticleForm() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     title: '',
     content: '',
@@ -15,7 +17,12 @@ export default function ArticleForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validate form data
+    await axios.post("http://localhost:5000/articles", {
+      ...form,
+      journalistId: Number(form.journalistId),
+      categoryId: Number(form.categoryId),
+    });
+    navigate("/");
   };
 
   return (
